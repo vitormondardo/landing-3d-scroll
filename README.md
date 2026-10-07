@@ -1,36 +1,60 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Ignite V6 Oficial — landing page
 
-## Getting Started
+Landing page de produto com narrativa por scroll: a embalagem 3D do gelo é a protagonista e a conversão é o WhatsApp.
 
-First, run the development server:
+**Stack:** Next.js (App Router) · TypeScript · Tailwind CSS v4 · React Three Fiber + drei · GSAP + ScrollTrigger · Lenis
 
 ```bash
+cp .env.example .env.local   # preencha marca, WhatsApp, domínio
+npm install
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+`npm run lint` · `npm run typecheck` · `npm run build`
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Identidade ("Night Tropical")
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+Paleta e fontes ficam em `app/globals.css` (`@theme`) e `app/layout.tsx`.
 
-## Learn More
+| Token | Hex | Uso |
+|---|---|---|
+| `coconut` | `#F8F5EC` | fundo claro |
+| `forest` / `forest-2` | `#123C35` / `#17665C` | identidade, texto, seção Benefícios |
+| `lime` | `#C8F169` | CTAs e a seção final |
+| `aqua` | `#66E0D0` | destaques sobre fundo escuro, luz 3D |
+| `ice` | `#D9F7F4` | seção "Como usar" |
+| `night` | `#101414` | seção 3D, ocasiões, rodapé |
 
-To learn more about Next.js, take a look at the following resources:
+Fontes: **Sora** (títulos), **Inter** (texto), **Manrope** (labels). O ritmo da página alterna
+Coconut → Night (3D) → Forest → Coconut → Ice → Night → Lime → Night.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## Onde editar
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+| O quê | Arquivo |
+|---|---|
+| Marca, WhatsApp, domínio, região, flags | `.env.local` / `lib/constants.ts` |
+| Sabores e arte da embalagem | `content/flavors.ts` (ver `docs/PACK_TEXTURE.md`) |
+| Textos (hero, capítulos do produto, benefícios, passos, ocasiões, CTA) | `content/product.ts` |
+| Mensagens do WhatsApp por intenção | `lib/whatsapp.ts` |
+| Movimento e orçamento do 3D (gotas, gelos, DPR) | `lib/constants.ts` (`MOTION`, `SCENE`) |
+| Coreografia por capítulo (posição, rotação, luz, fundo) | `components/product/productKeyframes.ts` |
+| Logo | `ignitev6_sem_fundo.jpg` → `npm run build:logo` |
 
-## Deploy on Vercel
+O que ainda falta da empresa está em [`docs/CONTENT_TODO.md`](docs/CONTENT_TODO.md).
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+## Arquitetura do 3D (`components/product/`)
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+- `ProductExperience`: palco `sticky` com os capítulos rolando por cima, em fluxo normal (funciona sem JS e sem WebGL).
+- `useProductScrollTimeline`: ScrollTriggers escrevem a posição do scroll (`ScrollState`: `enter` e `P`, a posição fracionária do capítulo). Nada de React state no scroll.
+- `scene/SceneRig`: a cada frame suaviza `P`, amostra `productKeyframes` (cada capítulo "segura" a pose e anima entre eles) e grava um `SceneFrame`; também enquadra a câmera e controla fundo e exposição.
+- `scene/*`: `Pack` (embalagem "pillow" com a arte como textura, condensação e gotas), `IceCubes`, `Coconuts`, `Mist`, `ContactShadow`, `Lighting` e `environment` (reflexos de estúdio gerados em código, sem baixar HDR). Cada um só lê o `SceneFrame` no seu `useFrame`.
+- `ProductScene` é um chunk separado (`next/dynamic`, `ssr: false`), carregado só quando a seção se aproxima. Antes disso, e sem WebGL ou com reduced motion, aparece `ProductPoster` (a própria arte da embalagem).
+- Celular: menos gotas, gelos e partículas, sem passes de transmissão e DPR menor. O `PerformanceMonitor` reduz o DPR e para o deslize das gotas se o FPS cair.
+
+## Outros pontos
+
+- `components/ui/WhatsAppButton` é o único lugar que gera links do WhatsApp e dispara `whatsapp_click` / `order_intent`.
+- `lib/analytics.ts`: `track()` tipado, envia para `window.dataLayer` (GTM/GA4) e para um `CustomEvent`. Ainda sem fornecedor.
+- `content/` é separado dos componentes, então trocar por um CMS depois não exige mexer na UI.
+- `prefers-reduced-motion`: sem Lenis, sem animação de scroll, 3D substituído pela arte estática.
+- O 3D é decorativo (`aria-hidden`); toda informação está em HTML.
