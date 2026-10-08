@@ -14,7 +14,7 @@ export function Benefits() {
         <Reveal>
           <SectionHeading
             id="benefits-title"
-            eyebrow="Por que Ignite V6"
+            eyebrow="Por que Coco Ice"
             title={
               <>
                 Mais que gelo.

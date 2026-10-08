@@ -1,6 +1,5 @@
-import Image from "next/image";
 import { navLinks } from "@/content/site";
-import { BRAND_NAME, DELIVERY_REGION, INSTAGRAM_URL, LOGO } from "@/lib/constants";
+import { BRAND_NAME, DELIVERY_REGION, INSTAGRAM_URL } from "@/lib/constants";
 import { WhatsAppButton } from "@/components/ui/WhatsAppButton";
 
 export function Footer() {
@@ -9,15 +8,7 @@ export function Footer() {
       <div className="px-gutter mx-auto max-w-[1800px] py-16 md:py-24">
         <div className="flex flex-col gap-12 md:flex-row md:items-end md:justify-between">
           <div>
-            <Image
-              src={LOGO.light}
-              alt={BRAND_NAME}
-              width={LOGO.width}
-              height={LOGO.height}
-              sizes="(min-width: 768px) 224px, 160px"
-              className="h-auto w-40 md:w-56"
-            />
-            <p className="mt-8 font-display text-h3 font-bold">{BRAND_NAME}</p>
+            <p className="font-display text-h3 font-bold">{BRAND_NAME}</p>
             <p className="mt-4 max-w-sm text-coconut/70">Gelos Saborizados Premium — gelo para drinks.</p>
             {DELIVERY_REGION && <p className="mt-2 text-coconut/70">Entregamos em {DELIVERY_REGION}.</p>}
           </div>

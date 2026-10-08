@@ -1,4 +1,4 @@
-# Ignite V6 Oficial — landing page
+# Coco Ice — landing page
 
 Landing page de produto com narrativa por scroll: a embalagem 3D do gelo é a protagonista e a conversão é o WhatsApp.
 
@@ -38,7 +38,6 @@ Coconut → Night (3D) → Forest → Coconut → Ice → Night → Lime → Nig
 | Mensagens do WhatsApp por intenção | `lib/whatsapp.ts` |
 | Movimento e orçamento do 3D (gotas, gelos, DPR) | `lib/constants.ts` (`MOTION`, `SCENE`) |
 | Coreografia por capítulo (posição, rotação, luz, fundo) | `components/product/productKeyframes.ts` |
-| Logo | `ignitev6_sem_fundo.jpg` → `npm run build:logo` |
 
 O que ainda falta da empresa está em [`docs/CONTENT_TODO.md`](docs/CONTENT_TODO.md).
 

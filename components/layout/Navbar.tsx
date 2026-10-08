@@ -3,7 +3,7 @@
 import Image from "next/image";
 import { useEffect, useState } from "react";
 import { navLinks, SECTION_IDS } from "@/content/site";
-import { BRAND_NAME, LOGO } from "@/lib/constants";
+import { BRAND_NAME } from "@/lib/constants";
 import { WhatsAppButton } from "@/components/ui/WhatsAppButton";
 
 const SCROLLED_OFFSET = 24;
@@ -26,15 +26,6 @@ export function Navbar() {
     >
       <nav aria-label="Principal" className="px-gutter mx-auto flex h-16 max-w-[1800px] items-center justify-between md:h-20">
         <a href={`#${SECTION_IDS.hero}`} className="flex items-center gap-3" aria-label={`${BRAND_NAME} — início`}>
-          <Image
-            src={LOGO.dark}
-            alt=""
-            width={LOGO.width}
-            height={LOGO.height}
-            loading="eager"
-            sizes="72px"
-            className="h-11 w-auto md:h-14"
-          />
           <span className="font-display text-lg font-bold tracking-tight max-[359px]:hidden md:text-xl">{BRAND_NAME}</span>
         </a>
 
@@ -48,12 +39,29 @@ export function Navbar() {
           ))}
         </ul>
 
-        <WhatsAppButton location="navbar" intent="order" variant="dark" showIcon={false} className="h-10! px-5! max-md:hidden">
-          Pedir
-        </WhatsAppButton>
-        <a href={`#${SECTION_IDS.flavors}`} className="text-sm underline-offset-4 hover:underline md:hidden">
-          Sabores
-        </a>
+        <div className="flex items-center gap-4 md:gap-6">
+          <WhatsAppButton location="navbar" intent="order" variant="dark" showIcon={false} className="h-10! px-5! max-md:hidden">
+            Pedir
+          </WhatsAppButton>
+          <a href={`#${SECTION_IDS.flavors}`} className="text-sm underline-offset-4 hover:underline md:hidden">
+            Sabores
+          </a>
+          <div className="flex items-center gap-2">
+            <span className="hidden text-xs leading-tight text-forest/70 sm:block">
+              Desenvolvido e
+              <br />
+              Hospedado por:
+            </span>
+            <Image
+              src="/images/oberfritz-logo.png"
+              alt="Oberfritz"
+              width={512}
+              height={512}
+              sizes="48px"
+              className="size-9 md:size-12"
+            />
+          </div>
+        </div>
       </nav>
     </header>
   );

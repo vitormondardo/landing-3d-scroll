@@ -7,15 +7,7 @@
  */
 
 // ─── Company ────────────────────────────────────────────────────────────────
-/** Generated from ignitev6_sem_fundo.jpg by scripts/build-logo.mjs. */
-export const LOGO = {
-  dark: "/images/logo-ignite-v6.png",
-  light: "/images/logo-ignite-v6-light.png",
-  width: 838,
-  height: 687,
-} as const;
-
-export const BRAND_NAME = process.env.NEXT_PUBLIC_BRAND_NAME ?? "Ignite V6 Oficial";
+export const BRAND_NAME = process.env.NEXT_PUBLIC_BRAND_NAME ?? "Coco Ice";
 
 /** International format, digits only: 55 + DDD + number (e.g. 5511999999999). */
 export const WHATSAPP_NUMBER = (process.env.NEXT_PUBLIC_WHATSAPP_NUMBER ?? "").replace(/\D/g, "");
@@ -40,7 +32,7 @@ export const PACK = {
   /** Intrinsic size of the texture; the 3D pack keeps this aspect ratio. */
   width: 465,
   height: 1257,
-  alt: "Embalagem Ignite V6 Gelo para Drinks, sabor Água de Coco, 200 ml",
+  alt: "Embalagem Coco Ice Gelo para Drinks, sabor Água de Coco, 200 ml",
 } as const;
 
 export const SCENE = {
